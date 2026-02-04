@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.entity.Adherent;
+import com.example.demo.model.entity.Subscription;
 import com.example.demo.model.enums.AdherentStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,14 +58,13 @@ public interface AdherentRepository extends JpaRepository<Adherent, Long> {
     Page<Adherent> findAllExcludingAdmins(Pageable pageable);
     
     /**
-     * Trouve les adhérents dont l'abonnement expire à une date donnée
+     * Compte les adhérents par abonnement
      */
-    @Query("SELECT a FROM Adherent a WHERE a.currentSubscription IS NOT NULL AND a.currentSubscription.endDate = :date")
-    List<Adherent> findAdherentsWithExpiringSubscription(@Param("date") LocalDate date);
+    @Query("SELECT COUNT(a) FROM Adherent a WHERE a.currentSubscription = :subscription")
+    long countByCurrentSubscription(@Param("subscription") Subscription subscription);
     
     /**
-     * Trouve les adhérents dont l'abonnement est expiré
+     * Trouve les adhérents avec pagination par statut
      */
-    @Query("SELECT a FROM Adherent a WHERE a.currentSubscription IS NOT NULL AND a.currentSubscription.endDate < CURRENT_DATE AND a.status = 'ACTIVE'")
-    List<Adherent> findAdherentsWithExpiredSubscription();
+    Page<Adherent> findByStatus(AdherentStatus status, Pageable pageable);
 }

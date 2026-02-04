@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Adherent } from '../types';
+import type { Adherent, Subscription } from '../types';
 import { AdherentStatus } from '../types';
 import { adherentService } from '../services/api';
 
@@ -14,6 +14,43 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
   const [suspendReason, setSuspendReason] = useState('');
   const [showSuspendForm, setShowSuspendForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+  const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<number | null>(null);
+
+  const loadSubscriptions = async () => {
+    try {
+      const response = await adherentService.getAllSubscriptions();
+      setSubscriptions(Array.isArray(response) ? response : []);
+    } catch (err: any) {
+      alert('Erreur lors du chargement des abonnements: ' + err.message);
+    }
+  };
+
+  const handleOpenSubscriptionModal = async () => {
+    await loadSubscriptions();
+    setShowSubscriptionModal(true);
+  };
+
+  const handleAssignSubscription = async (): Promise<void> => {
+    if (!selectedSubscriptionId) {
+      alert('Veuillez sélectionner un abonnement');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await adherentService.assignSubscriptionToAdherent(adherent.id, selectedSubscriptionId);
+      alert('Abonnement assigné avec succès');
+      setShowSubscriptionModal(false);
+      setSelectedSubscriptionId(null);
+      onUpdate();
+    } catch (err: any) {
+      alert('Erreur: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSuspend = async (): Promise<void> => {
     if (!suspendReason.trim()) {
@@ -26,6 +63,23 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
       await adherentService.suspendAdherent(adherent.id, suspendReason);
       onUpdate();
       setShowSuspendForm(false);
+    } catch (err: any) {
+      alert('Erreur: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoveSubscription = async (): Promise<void> => {
+    if (!confirm("Retirer l'abonnement de cet adhérent ?")) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await adherentService.removeSubscriptionFromAdherent(adherent.id);
+      alert("Abonnement retiré avec succès");
+      onUpdate();
     } catch (err: any) {
       alert('Erreur: ' + err.message);
     } finally {
@@ -49,10 +103,12 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
     switch (status) {
       case 'ACTIVE':
         return 'bg-green-100 text-green-800';
-      case 'INACTIVE':
-        return 'bg-gray-100 text-gray-800';
+      case 'EXPIRED':
+        return 'bg-orange-100 text-orange-800';
       case 'SUSPENDED':
         return 'bg-red-100 text-red-800';
+      case 'DEACTIVATED':
+        return 'bg-gray-100 text-gray-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -62,8 +118,6 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
     switch (type) {
       case 'BASIC':
         return 'bg-blue-100 text-blue-800';
-      case 'STANDARD':
-        return 'bg-purple-100 text-purple-800';
       case 'PREMIUM':
         return 'bg-yellow-100 text-yellow-800';
       default:
@@ -72,7 +126,8 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <>
+      <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
         <div className="flex justify-between items-start">
@@ -206,55 +261,29 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
           </h3>
           <div className="space-y-4">
             {adherent.medicalCertificate ? (
-              <>
-                <div className="bg-white/70 rounded-lg p-4">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                      <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <label className="text-sm text-gray-600 font-medium">Statut</label>
-                      <p className="font-semibold text-green-600">✓ Certificat enregistré</p>
-                    </div>
-                  </div>
-                  <a
-                    href={`data:application/pdf;base64,${adherent.medicalCertificate}`}
-                    download={`certificat_medical_${adherent.firstName}_${adherent.lastName}.pdf`}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-semibold"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              <div className="bg-white/70 rounded-lg p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    Télécharger le certificat
-                  </a>
-                </div>
-                {adherent.medicalCertificateExpiryDate && (
-                  <div className="bg-white/70 rounded-lg p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                        <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <label className="text-sm text-gray-600 font-medium">Date d'expiration</label>
-                        <p className="font-bold text-gray-800 text-lg">
-                          {new Date(adherent.medicalCertificateExpiryDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                        </p>
-                        {new Date(adherent.medicalCertificateExpiryDate) < new Date() && (
-                          <p className="text-sm text-red-600 font-semibold mt-1">⚠️ Certificat expiré</p>
-                        )}
-                        {new Date(adherent.medicalCertificateExpiryDate) >= new Date() && 
-                         new Date(adherent.medicalCertificateExpiryDate) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) && (
-                          <p className="text-sm text-orange-600 font-semibold mt-1">⚠️ Expire bientôt</p>
-                        )}
-                      </div>
-                    </div>
                   </div>
-                )}
-              </>
+                  <div>
+                    <label className="text-sm text-gray-600 font-medium">Statut</label>
+                    <p className="font-semibold text-green-600">✓ Certificat enregistré</p>
+                  </div>
+                </div>
+                <a
+                  href={`data:application/pdf;base64,${adherent.medicalCertificate}`}
+                  download={`certificat_medical_${adherent.firstName}_${adherent.lastName}.pdf`}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-semibold"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Télécharger le certificat
+                </a>
+              </div>
             ) : (
               <div className="bg-white/50 rounded-lg p-8 text-center">
                 <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -321,30 +350,6 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <label className="text-sm text-gray-500 font-medium">Date de début</label>
-                    <p className="font-semibold text-gray-800">{new Date(adherent.currentSubscription.startDate).toLocaleDateString('fr-FR')}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <label className="text-sm text-gray-500 font-medium">Date de fin</label>
-                    <p className="font-semibold text-gray-800">{new Date(adherent.currentSubscription.endDate).toLocaleDateString('fr-FR')}</p>
-                  </div>
-                </div>
-                
                 <div className="flex items-center gap-3 md:col-span-2">
                   <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                     <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -362,6 +367,56 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
                     </p>
                   </div>
                 </div>
+                
+                <div className="flex items-center gap-3 md:col-span-2">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <label className="text-sm text-gray-500 font-medium">Limite hebdomadaire</label>
+                    <p className="font-bold text-gray-800">
+                      {adherent.currentSubscription.type === 'PREMIUM' ? (
+                        <span className="text-purple-600">∞ Illimité</span>
+                      ) : (
+                        <span className="text-blue-600">3 séances/semaine</span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <label className="text-sm text-gray-500 font-medium">Date de début</label>
+                    <p className="font-bold text-gray-800">
+                      {adherent.currentSubscription.startDate
+                        ? new Date(adherent.currentSubscription.startDate).toLocaleDateString('fr-FR')
+                        : '-'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7V3m-8 4V3m-2 8h12M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <label className="text-sm text-gray-500 font-medium">Date de fin</label>
+                    <p className="font-bold text-gray-800">
+                      {adherent.currentSubscription.endDate
+                        ? new Date(adherent.currentSubscription.endDate).toLocaleDateString('fr-FR')
+                        : '-'}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           ) : (
@@ -372,6 +427,30 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
               <p className="text-gray-500 text-lg font-medium">Aucun abonnement actif</p>
             </div>
           )}
+          <div className="mt-4 flex flex-col md:flex-row gap-3">
+            <button
+              onClick={handleOpenSubscriptionModal}
+              disabled={loading}
+              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              {adherent.currentSubscription ? 'Modifier l\'abonnement' : 'Assigner un abonnement'}
+            </button>
+            {adherent.currentSubscription && adherent.status !== AdherentStatus.SUSPENDED && (
+              <button
+                onClick={handleRemoveSubscription}
+                disabled={loading}
+                className="flex-1 bg-white border-2 border-red-300 text-red-700 hover:bg-red-50 disabled:opacity-50 font-semibold py-2 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Retirer l'abonnement
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Suspension Info */}
@@ -526,6 +605,77 @@ const AdherentDetails: React.FC<AdherentDetailsProps> = ({ adherent, onUpdate, o
         </div>
       </div>
     </div>
+
+    {/* Subscription Assignment Modal */}
+    {showSubscriptionModal && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 space-y-6">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">
+              {adherent.currentSubscription ? 'Modifier l\'abonnement' : 'Assigner un abonnement'}
+            </h3>
+            <p className="text-gray-500">Sélectionnez un abonnement pour {adherent.firstName} {adherent.lastName}</p>
+          </div>
+
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            {subscriptions.length > 0 ? (
+              subscriptions.map((sub) => (
+                <div
+                  key={sub.id}
+                  onClick={() => setSelectedSubscriptionId(sub.id)}
+                  className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+                    selectedSubscriptionId === sub.id
+                      ? 'border-purple-600 bg-purple-50'
+                      : 'border-gray-200 bg-gray-50 hover:border-purple-300'
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="font-bold text-lg text-gray-800">{sub.type}</h4>
+                    <span className="text-2xl font-bold text-purple-600">{sub.price}€</span>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    {sub.type === 'PREMIUM' ? 'Accès illimité' : '3 séances/semaine'}
+                  </p>
+                  {selectedSubscriptionId === sub.id && (
+                    <div className="mt-2 flex items-center gap-2 text-green-600 font-semibold">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                      </svg>
+                      Sélectionné
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-500">Aucun abonnement disponible</p>
+              </div>
+            )}
+          </div>
+
+          <div className="flex gap-3 pt-4 border-t border-gray-200">
+            <button
+              onClick={handleAssignSubscription}
+              disabled={loading || !selectedSubscriptionId}
+              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
+            >
+              {loading ? 'Assignation...' : 'Confirmer'}
+            </button>
+            <button
+              onClick={() => {
+                setShowSubscriptionModal(false);
+                setSelectedSubscriptionId(null);
+              }}
+              disabled={loading}
+              className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50"
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
   );
 };
 

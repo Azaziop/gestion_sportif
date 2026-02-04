@@ -6,10 +6,12 @@ import EditAdherentForm from './components/EditAdherentForm';
 import AuthPage from './components/AuthPage';
 import Sidebar from './components/Sidebar';
 import UserProfile from './components/UserProfile';
+import Reports from './components/Reports';
+import SubscriptionManager from './components/SubscriptionManager';
 import { authService } from './services/api';
 import type { Adherent } from './types';
 
-type View = 'list' | 'form' | 'details' | 'profile' | 'edit';
+type View = 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'subscriptions';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -18,12 +20,26 @@ function App() {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    setIsAuthenticated(!!localStorage.getItem('token'));
     if (isAuthenticated) {
       const role = authService.getUserRole();
       setUserRole(role);
+      console.log('Utilisateur authentifié, rôle:', role);
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    const handleAuthLogout = () => {
+      setIsAuthenticated(false);
+      setUserRole(null);
+      setSelectedAdherent(null);
+      setCurrentView('list');
+    };
+
+    window.addEventListener('auth:logout', handleAuthLogout as EventListener);
+    return () => {
+      window.removeEventListener('auth:logout', handleAuthLogout as EventListener);
+    };
+  }, []);
 
   const handleSelectAdherent = (adherent: Adherent) => {
     setSelectedAdherent(adherent);
@@ -60,6 +76,8 @@ function App() {
     setIsAuthenticated(false);
   };
 
+  const viewKey = `${currentView}-${userRole ?? 'none'}`;
+
   if (!isAuthenticated) {
     return <AuthPage onSuccess={() => setIsAuthenticated(true)} />;
   }
@@ -77,9 +95,17 @@ function App() {
         />
 
         <main className="flex-1 overflow-y-auto">
-          <div className="container mx-auto px-4 md:px-8 py-8 max-w-7xl">
+          <div key={viewKey} className="container mx-auto px-4 md:px-8 py-8 max-w-7xl">
             {currentView === 'profile' && (
               <UserProfile onClose={() => setCurrentView('list')} />
+            )}
+
+            {currentView === 'reports' && userRole === 'ADMIN' && (
+              <Reports onClose={() => setCurrentView('list')} />
+            )}
+
+            {currentView === 'subscriptions' && userRole === 'ADMIN' && (
+              <SubscriptionManager onClose={() => setCurrentView('list')} />
             )}
 
             {currentView === 'list' && userRole === 'ADMIN' && (

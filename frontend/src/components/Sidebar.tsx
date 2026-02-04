@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 interface SidebarProps {
-  currentView: 'list' | 'form' | 'details' | 'profile' | 'edit';
-  onNavigate: (view: 'list' | 'form' | 'details' | 'profile' | 'edit') => void;
+  currentView: 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'subscriptions';
+  onNavigate: (view: 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'subscriptions') => void;
   onLogout: () => void;
   userRole: string | null;
 }
@@ -30,16 +30,34 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, onLogout, us
       ),
       label: 'Nouvel Adhérent',
       view: 'form' as const,
-    }] : []),
+    },
     {
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
         </svg>
       ),
-      label: 'Mon Profil',
-      view: 'profile' as const,
+      label: 'Abonnements',
+      view: 'subscriptions' as const,
     },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+      ),
+      label: 'Rapports',
+      view: 'reports' as const,
+    },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-2a6 6 0 0112 0v2zm0 0h6v-2a6 6 0 00-9-5.657" />
+        </svg>
+      ),
+      label: 'Gestion Rôles',
+      view: 'users' as const,
+    }] : []),
   ];
 
   return (
@@ -106,7 +124,15 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, onLogout, us
 
           <div className="border-t border-gray-200 p-4 space-y-2">
             <button
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 transition-all duration-200 group"
+              onClick={() => {
+                onNavigate('profile');
+                setIsOpen(false);
+              }}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
+                currentView === 'profile'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
               title="Paramètres"
             >
               <span className="flex-shrink-0">

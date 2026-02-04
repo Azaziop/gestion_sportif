@@ -4,7 +4,6 @@ import com.example.demo.model.entity.Adherent;
 import com.example.demo.model.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.AdherentRepository;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,7 +44,7 @@ public class UserProfileController {
     }
 
     @PutMapping
-    public ResponseEntity<Adherent> updateProfile(@Valid @RequestBody Adherent updatedAdherent) {
+    public ResponseEntity<Adherent> updateProfile(@RequestBody Adherent updatedAdherent) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -58,12 +57,14 @@ public class UserProfileController {
         }
 
         // Mise à jour des champs modifiables par l'utilisateur
-        adherent.setEmail(updatedAdherent.getEmail());
-        adherent.setPhoneNumber(updatedAdherent.getPhoneNumber());
-        adherent.setAddress(updatedAdherent.getAddress());
-        adherent.setCity(updatedAdherent.getCity());
-        adherent.setPostalCode(updatedAdherent.getPostalCode());
-        adherent.setCountry(updatedAdherent.getCountry());
+        if (updatedAdherent.getEmail() != null) adherent.setEmail(updatedAdherent.getEmail());
+        if (updatedAdherent.getPhoneNumber() != null) adherent.setPhoneNumber(updatedAdherent.getPhoneNumber());
+        if (updatedAdherent.getAddress() != null) adherent.setAddress(updatedAdherent.getAddress());
+        if (updatedAdherent.getCity() != null) adherent.setCity(updatedAdherent.getCity());
+        if (updatedAdherent.getPostalCode() != null) adherent.setPostalCode(updatedAdherent.getPostalCode());
+        if (updatedAdherent.getCountry() != null) adherent.setCountry(updatedAdherent.getCountry());
+        if (updatedAdherent.getPhoto() != null) adherent.setPhoto(updatedAdherent.getPhoto());
+        if (updatedAdherent.getMedicalCertificate() != null) adherent.setMedicalCertificate(updatedAdherent.getMedicalCertificate());
 
         Adherent saved = adherentRepository.save(adherent);
         return ResponseEntity.ok(saved);

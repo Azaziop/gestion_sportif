@@ -62,11 +62,6 @@ public class Adherent {
     @NotNull(message = "Le certificat médical est obligatoire")
     private byte[] medicalCertificate;
     
-    @Column(name = "medical_certificate_expiry_date", nullable = false)
-    @NotNull(message = "La date d'expiration du certificat médical est obligatoire")
-    @Future(message = "La date d'expiration doit être dans le futur")
-    private LocalDate medicalCertificateExpiryDate;
-    
     @Column(columnDefinition = "BYTEA")
     private byte[] photo;
     
@@ -112,16 +107,6 @@ public class Adherent {
                currentSubscription != null && 
                currentSubscription.isActive();
     }
-    
-    /**
-     * Vérifie si le certificat médical est encore valide
-     */
-    public boolean hasMedicalCertificateValid() {
-        if (medicalCertificate == null || medicalCertificateExpiryDate == null) {
-            return false;
-        }
-        return !LocalDate.now().isAfter(medicalCertificateExpiryDate);
-    }
 
     /**
      * Vérifie si l'adhérent peut s'inscrire à une séance
@@ -130,7 +115,7 @@ public class Adherent {
     public boolean isEligibleForSession() {
         return hasActiveSubscription() && 
                status != AdherentStatus.SUSPENDED && 
-               hasMedicalCertificateValid();
+               medicalCertificate != null;
     }
 
     /**
@@ -173,11 +158,6 @@ public class Adherent {
     
     public byte[] getMedicalCertificate() { return medicalCertificate; }
     public void setMedicalCertificate(byte[] medicalCertificate) { this.medicalCertificate = medicalCertificate; }
-    
-    public LocalDate getMedicalCertificateExpiryDate() { return medicalCertificateExpiryDate; }
-    public void setMedicalCertificateExpiryDate(LocalDate medicalCertificateExpiryDate) { 
-        this.medicalCertificateExpiryDate = medicalCertificateExpiryDate; 
-    }
     
     public byte[] getPhoto() { return photo; }
     public void setPhoto(byte[] photo) { this.photo = photo; }

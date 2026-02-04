@@ -97,26 +97,12 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
         }
 
-        // Create Adherent for admin
-        Adherent adherent = new Adherent();
-        adherent.setFirstName(request.username());
-        adherent.setLastName("Admin");
-        adherent.setEmail(request.username() + "@admin.local");
-        adherent.setPhoneNumber("");
-        adherent.setDateOfBirth(LocalDate.now());
-        adherent.setAddress("");
-        adherent.setCity("");
-        adherent.setPostalCode("");
-        adherent.setCountry("");
-        adherent.setStatus(AdherentStatus.ACTIVE);
-        Adherent savedAdherent = adherentRepository.save(adherent);
-
-        // Create Admin User
+        // Create Admin User (without associated Adherent)
         User user = new User();
         user.setUsername(request.username());
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole("ADMIN");
-        user.setAdherent(savedAdherent);
+        user.setAdherent(null);
         userRepository.save(user);
 
         String token = jwtService.generateToken(user.getUsername(), user.getRole());

@@ -60,7 +60,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ profile, onSave, onCancel }) 
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off" data-lpignore="true">
         {/* Informations de contact */}
         <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
           <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
@@ -80,6 +80,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ profile, onSave, onCancel }) 
                 value={formData.email}
                 onChange={handleChange}
                 required
+                autoComplete="off"
+                data-lpignore="true"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -93,6 +95,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ profile, onSave, onCancel }) 
                 value={formData.phoneNumber}
                 onChange={handleChange}
                 required
+                autoComplete="off"
+                data-lpignore="true"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -119,6 +123,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ profile, onSave, onCancel }) 
                 value={formData.address}
                 onChange={handleChange}
                 required
+                autoComplete="off"
+                data-lpignore="true"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               />
             </div>
@@ -133,6 +139,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ profile, onSave, onCancel }) 
                   value={formData.postalCode}
                   onChange={handleChange}
                   required
+                  autoComplete="off"
+                  data-lpignore="true"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
@@ -146,6 +154,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ profile, onSave, onCancel }) 
                   value={formData.city}
                   onChange={handleChange}
                   required
+                  autoComplete="off"
+                  data-lpignore="true"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>
@@ -159,6 +169,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ profile, onSave, onCancel }) 
                   value={formData.country}
                   onChange={handleChange}
                   required
+                  autoComplete="off"
+                  data-lpignore="true"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 />
               </div>

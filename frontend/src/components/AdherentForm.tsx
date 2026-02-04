@@ -21,7 +21,7 @@ const AdherentForm: React.FC<AdherentFormProps> = ({ onSuccess, onCancel }): Rea
     postalCode: '',
     country: 'France',
     medicalCertificate: '',
-    medicalCertificateExpiryDate: '',
+    photo: '',
     status: 'ACTIVE',
   });
 
@@ -32,6 +32,17 @@ const AdherentForm: React.FC<AdherentFormProps> = ({ onSuccess, onCancel }): Rea
     reader.onloadend = () => {
       const base64 = typeof reader.result === 'string' ? reader.result.split(',').pop() || '' : '';
       setFormData((prev) => ({ ...prev, medicalCertificate: base64 }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = typeof reader.result === 'string' ? reader.result.split(',').pop() || '' : '';
+      setFormData((prev) => ({ ...prev, photo: base64 }));
     };
     reader.readAsDataURL(file);
   };
@@ -255,17 +266,17 @@ const AdherentForm: React.FC<AdherentFormProps> = ({ onSuccess, onCancel }): Rea
             </div>
           </div>
 
-          {/* Certificat médical */}
+          {/* Certificat médical et Photo */}
           <div>
             <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
               <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 4H7a2 2 0 01-2-2V6a2 2 0 012-2h5l2 2h3a2 2 0 012 2v10a2 2 0 01-2 2z" />
               </svg>
-              Certificat médical
+              Documents
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Fichier (PDF / image) *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Certificat médical (PDF / image) *</label>
                 <input
                   type="file"
                   accept=".pdf,image/*"
@@ -276,15 +287,14 @@ const AdherentForm: React.FC<AdherentFormProps> = ({ onSuccess, onCancel }): Rea
                 <p className="text-xs text-gray-500 mt-1">Le fichier sera encodé en base64 et envoyé à l'API.</p>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Date d'expiration *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Photo (image)</label>
                 <input
-                  type="date"
-                  name="medicalCertificateExpiryDate"
-                  value={formData.medicalCertificateExpiryDate}
-                  onChange={handleChange}
-                  required
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
                   className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
+                <p className="text-xs text-gray-500 mt-1">Optionnel. Photo de profil de l'adhérent.</p>
               </div>
             </div>
           </div>

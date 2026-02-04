@@ -106,10 +106,25 @@ public class AdherentService {
     public Adherent updateAdherent(Long id, Adherent updates) {
         Adherent adherent = getAdherentById(id);
         
+        // Informations personnelles
         if (updates.getFirstName() != null) adherent.setFirstName(updates.getFirstName());
         if (updates.getLastName() != null) adherent.setLastName(updates.getLastName());
         if (updates.getPhoneNumber() != null) adherent.setPhoneNumber(updates.getPhoneNumber());
         if (updates.getDateOfBirth() != null) adherent.setDateOfBirth(updates.getDateOfBirth());
+        
+        // Adresse
+        if (updates.getAddress() != null) adherent.setAddress(updates.getAddress());
+        if (updates.getCity() != null) adherent.setCity(updates.getCity());
+        if (updates.getPostalCode() != null) adherent.setPostalCode(updates.getPostalCode());
+        if (updates.getCountry() != null) adherent.setCountry(updates.getCountry());
+        
+        // Photo
+        if (updates.getPhoto() != null) adherent.setPhoto(updates.getPhoto());
+        
+        // Certificat médical (si fourni)
+        if (updates.getMedicalCertificate() != null) {
+            adherent.setMedicalCertificate(updates.getMedicalCertificate());
+        }
         
         return adherentRepository.save(adherent);
     }
@@ -166,17 +181,52 @@ public class AdherentService {
     public int getWeeklySessionLimit(Long adherentId) {
         Adherent adherent = getAdherentById(adherentId);
         if (!adherent.hasActiveSubscription()) return 0;
-        return adherent.getCurrentSubscription().getType().getWeeklySessions();
+        return adherent.getCurrentSubscription().getWeeklySessionLimit();
     }
     
-    // ===== BATCH =====
+    // ===== CERTIFICATS MÉDICAUX =====
     
+    public Adherent updateMedicalCertificate(Long id, byte[] certificate) {
+        Adherent adherent = adherentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Adhérent non trouvé"));
+        adherent.setMedicalCertificate(certificate);
+        adherent.setUpdatedAt(LocalDateTime.now());
+        return adherentRepository.save(adherent);
+    }
+    
+    public boolean isMedicalCertificateValid(Long id) {
+        Adherent adherent = adherentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Adhérent non trouvé"));
+        return adherent.getMedicalCertificate() != null && adherent.getMedicalCertificate().length > 0;
+    }
+
+    public Page<Adherent> getAdherentsByStatus(String status, int page, int size) {
+        try {
+            AdherentStatus enumStatus = AdherentStatus.valueOf(status.toUpperCase());
+            return adherentRepository.findByStatus(enumStatus, PageRequest.of(page, size));
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Statut invalide: " + status);
+        }
+    }
+    
+    public Adherent assignSubscriptionById(Long adherentId, Long subscriptionId) {
+        Adherent adherent = getAdherentById(adherentId);
+        Subscription subscription = subscriptionRepository.findById(subscriptionId)
+            .orElseThrow(() -> new IllegalArgumentException("Abonnement non trouvé avec l'ID: " + subscriptionId));
+        adherent.setCurrentSubscription(subscription);
+        return adherentRepository.save(adherent);
+    }
+
+    public Adherent removeSubscription(Long adherentId) {
+        Adherent adherent = getAdherentById(adherentId);
+        adherent.setCurrentSubscription(null);
+        return adherentRepository.save(adherent);
+    }
+
+    // ===== BATCH =====
+
     @Transactional
     public void processExpiredSubscriptions() {
-        List<Adherent> expired = adherentRepository.findAdherentsWithExpiredSubscription();
-        expired.forEach(a -> {
-            a.setStatus(AdherentStatus.EXPIRED);
-            adherentRepository.save(a);
-        });
+        // Plus de gestion d'expiration basée sur des dates
     }
 }

@@ -5,10 +5,7 @@ interface AuthPageProps {
   onSuccess: () => void;
 }
 
-type AuthMode = 'login' | 'register';
-
 export default function AuthPage({ onSuccess }: AuthPageProps) {
-  const [mode, setMode] = useState<AuthMode>('login');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,17 +14,20 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Formulaire soumis, preventDefault appelé');
     setLoading(true);
     setError(null);
 
     try {
-      if (mode === 'login') {
-        await authService.login(username, password);
-      } else {
-        await authService.register(username, password);
-      }
+      console.log('Appel authService.login...');
+      const response = await authService.login(username, password);
+      console.log('Login réussi, token stocké:', !!localStorage.getItem('token'));
+      console.log('Réponse login:', response);
+      console.log('Appel onSuccess...');
       onSuccess();
+      console.log('onSuccess appelé avec succès');
     } catch (err: any) {
+      console.error('Erreur login:', err);
       setError(err.response?.data?.message || err.message || 'Erreur d\'authentification');
     } finally {
       setLoading(false);
@@ -53,10 +53,10 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
         </div>
 
         <h1 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-          {mode === 'login' ? 'Bienvenue' : 'Créer un compte'}
+          Bienvenue
         </h1>
         <p className="text-center text-gray-500 mb-8 text-sm">
-          {mode === 'login' ? 'Connectez-vous pour continuer' : 'Inscrivez-vous pour commencer'}
+          Connectez-vous pour continuer
         </p>
 
         {error && (
@@ -141,34 +141,10 @@ export default function AuthPage({ onSuccess }: AuthPageProps) {
                 <span>Traitement...</span>
               </>
             ) : (
-              <span>{mode === 'login' ? 'Se connecter' : 'S\'inscrire'}</span>
+              <span>Se connecter</span>
             )}
           </button>
         </form>
-
-        <div className="mt-8 text-center">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                {mode === 'login' ? 'Pas encore de compte ?' : 'Vous avez déjà un compte ?'}
-              </span>
-            </div>
-          </div>
-          <button
-            onClick={() => {
-              setMode(mode === 'login' ? 'register' : 'login');
-              setError(null);
-              setUsername('');
-              setPassword('');
-            }}
-            className="mt-4 text-blue-600 font-semibold hover:text-blue-800 transition-colors duration-200"
-          >
-            {mode === 'login' ? 'Créer un compte' : 'Se connecter'}
-          </button>
-        </div>
       </div>
     </div>
   );

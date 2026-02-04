@@ -26,8 +26,8 @@ const AdherentList: React.FC<AdherentListProps> = ({ onSelectAdherent, onCreateN
         response = await adherentService.getAdherentsByStatus(filterStatus, page, 10);
       }
       
-      setAdherents(response.content);
-      setTotalPages(response.totalPages);
+      setAdherents(response.content || []);
+      setTotalPages(response.totalPages || 0);
       _setError(null);
     } catch (err: any) {
       _setError(err.message || 'Erreur lors du chargement des adhérents');
@@ -57,10 +57,12 @@ const AdherentList: React.FC<AdherentListProps> = ({ onSelectAdherent, onCreateN
     switch (status) {
       case 'ACTIVE':
         return 'bg-green-100 text-green-800';
-      case 'INACTIVE':
-        return 'bg-gray-100 text-gray-800';
+      case 'EXPIRED':
+        return 'bg-orange-100 text-orange-800';
       case 'SUSPENDED':
         return 'bg-red-100 text-red-800';
+      case 'DEACTIVATED':
+        return 'bg-gray-100 text-gray-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -81,7 +83,7 @@ const AdherentList: React.FC<AdherentListProps> = ({ onSelectAdherent, onCreateN
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-3xl font-bold mb-2">Gestion des Adhérents</h2>
-            <p className="text-blue-100">Total: {adherents.length} adhérent(s)</p>
+            <p className="text-blue-100">Total: {adherents?.length || 0} adhérent(s)</p>
           </div>
           <button
             onClick={onCreateNew}
@@ -108,8 +110,9 @@ const AdherentList: React.FC<AdherentListProps> = ({ onSelectAdherent, onCreateN
           >
             <option value="ALL">📋 Tous les statuts</option>
             <option value="ACTIVE">✅ Actifs</option>
-            <option value="INACTIVE">⏸️ Inactifs</option>
+            <option value="EXPIRED">⏱️ Expiré</option>
             <option value="SUSPENDED">🚫 Suspendus</option>
+            <option value="DEACTIVATED">❌ Désactivés</option>
           </select>
         </div>
       </div>
@@ -137,6 +140,15 @@ const AdherentList: React.FC<AdherentListProps> = ({ onSelectAdherent, onCreateN
                 <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(String(adherent.status))}`}>
                   {adherent.status}
                 </span>
+                {adherent.currentSubscription && (
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    adherent.currentSubscription.type === 'PREMIUM'
+                      ? 'bg-purple-100 text-purple-800'
+                      : 'bg-blue-100 text-blue-800'
+                  }`}>
+                    {adherent.currentSubscription.type}
+                  </span>
+                )}
               </div>
 
               {/* Contact info */}

@@ -25,17 +25,22 @@ public class Subscription {
     private SubscriptionType type;
     
     @Column(nullable = false)
-    @NotNull(message = "La date de début est obligatoire")
-    private LocalDate startDate;
-    
-    @Column(nullable = false)
-    @NotNull(message = "La date de fin est obligatoire")
-    private LocalDate endDate;
-    
-    @Column(nullable = false)
     @NotNull(message = "Le prix est obligatoire")
     @Positive(message = "Le prix doit être positif")
     private Double price;
+    
+    @Column(name = "weekly_sessions_limit")
+    private Integer weeklySessions;
+
+    @Column(name = "duration_months")
+    @Min(value = 1, message = "La durée doit être >= 1 mois")
+    private Integer durationMonths;
+    
+    @Column(name = "start_date")
+    private LocalDate startDate;
+    
+    @Column(name = "end_date")
+    private LocalDate endDate;
     
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -54,6 +59,14 @@ public class Subscription {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         weeklySessionsUsed = 0;
+        // Initialiser les dates de début et fin si non définies
+        if (startDate == null) {
+            startDate = LocalDate.now();
+        }
+        if (endDate == null) {
+            int months = durationMonths != null ? durationMonths : 12;
+            endDate = startDate.plusMonths(months);
+        }
     }
     
     @PreUpdate
@@ -62,14 +75,23 @@ public class Subscription {
     }
 
     public boolean isActive() {
-        LocalDate today = LocalDate.now();
-        return !today.isBefore(startDate) && !today.isAfter(endDate);
+        LocalDate now = LocalDate.now();
+        if (startDate != null && now.isBefore(startDate)) {
+            return false;
+        }
+        if (endDate != null && now.isAfter(endDate)) {
+            return false;
+        }
+        return true;
     }
     
     /**
      * Obtient le nombre maximal de séances hebdomadaires pour ce type d'abonnement
      */
     public int getWeeklySessionLimit() {
+        if (weeklySessions != null) {
+            return weeklySessions;
+        }
         return type.getWeeklySessions();
     }
     
@@ -85,12 +107,12 @@ public class Subscription {
         resetWeeklyCounterIfNeeded();
         
         // Premium = illimité
-        if (type == SubscriptionType.PREMIUM) {
+        if (SubscriptionType.PREMIUM == type) {
             return true;
         }
         
         // Basic = vérifier la limite
-        return weeklySessionsUsed < type.getWeeklySessions();
+        return weeklySessionsUsed < getWeeklySessionLimit();
     }
     
     /**
@@ -133,11 +155,11 @@ public class Subscription {
      * Obtient le nombre de séances restantes pour cette semaine
      */
     public int getRemainingWeeklySessions() {
-        if (type == SubscriptionType.PREMIUM) {
+        if (SubscriptionType.PREMIUM == type) {
             return Integer.MAX_VALUE;
         }
         resetWeeklyCounterIfNeeded();
-        return Math.max(0, type.getWeeklySessions() - weeklySessionsUsed);
+        return Math.max(0, getWeeklySessionLimit() - weeklySessionsUsed);
     }
     
     // Getters et Setters
@@ -147,14 +169,20 @@ public class Subscription {
     public SubscriptionType getType() { return type; }
     public void setType(SubscriptionType type) { this.type = type; }
     
+    public Double getPrice() { return price; }
+    public void setPrice(Double price) { this.price = price; }
+    
+    public Integer getWeeklySessions() { return weeklySessions; }
+    public void setWeeklySessions(Integer weeklySessions) { this.weeklySessions = weeklySessions; }
+
+    public Integer getDurationMonths() { return durationMonths; }
+    public void setDurationMonths(Integer durationMonths) { this.durationMonths = durationMonths; }
+    
     public LocalDate getStartDate() { return startDate; }
     public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
     
     public LocalDate getEndDate() { return endDate; }
     public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
-    
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
     
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
