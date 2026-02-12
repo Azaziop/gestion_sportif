@@ -9,7 +9,7 @@ import UserProfile from './components/UserProfile';
 import { authService } from './services/api';
 import type { Adherent } from './types';
 
-type View = 'list' | 'form' | 'details' | 'profile' | 'edit';
+type View = 'list' | 'form' | 'details' | 'profile' | 'edit' | 'cours';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -66,17 +66,31 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex">
-        <Sidebar
-          currentView={currentView}
-          userRole={userRole}
-          onNavigate={(view: View) => {
-            setCurrentView(view);
-            setSelectedAdherent(null);
-          }}
-          onLogout={handleLogout}
-        />
+      <Sidebar
+        currentView={currentView}
+        userRole={userRole}
+        onNavigate={(view: View) => {
+          setCurrentView(view);
+          setSelectedAdherent(null);
+        }}
+        onLogout={handleLogout}
+      />
 
-        <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto">
+        {/* Vue iframe pour le service cours */}
+        {currentView === 'cours' && (
+          <div className="h-screen w-full">
+            <iframe 
+              src="http://localhost:3000" 
+              className="w-full h-full border-0"
+              title="Gestion des Cours"
+              allow="fullscreen"
+            />
+          </div>
+        )}
+
+        {/* Autres vues avec container */}
+        {currentView !== 'cours' && (
           <div className="container mx-auto px-4 md:px-8 py-8 max-w-7xl">
             {currentView === 'profile' && (
               <UserProfile onClose={() => setCurrentView('list')} />
@@ -131,8 +145,9 @@ function App() {
               />
             )}
           </div>
-        </main>
-      </div>
+        )}
+      </main>
+    </div>
   );
 }
 

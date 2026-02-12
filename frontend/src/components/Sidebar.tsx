@@ -1,8 +1,9 @@
+// Dans votre service adhérents : components/Sidebar.tsx
 import React, { useState } from 'react';
 
 interface SidebarProps {
-  currentView: 'list' | 'form' | 'details' | 'profile' | 'edit';
-  onNavigate: (view: 'list' | 'form' | 'details' | 'profile' | 'edit') => void;
+  currentView: 'list' | 'form' | 'details' | 'profile' | 'edit' | 'cours';
+  onNavigate: (view: 'list' | 'form' | 'details' | 'profile' | 'edit' | 'cours') => void;
   onLogout: () => void;
   userRole: string | null;
 }
@@ -30,6 +31,15 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, onLogout, us
       ),
       label: 'Nouvel Adhérent',
       view: 'form' as const,
+    },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      ),
+      label: 'Gestion Cours',
+      view: 'cours' as const,
     }] : []),
     {
       icon: (
@@ -41,6 +51,13 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, onLogout, us
       view: 'profile' as const,
     },
   ];
+
+  const handleNavigation = (item: typeof menuItems[0]) => {
+    if (item.view) {
+      onNavigate(item.view);
+    }
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -76,20 +93,17 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, onLogout, us
               {isOpen && (
                 <div>
                   <h3 className="font-bold text-sm">Club Sportif</h3>
-                  <p className="text-xs text-blue-100">Adhérents</p>
+                  <p className="text-xs text-blue-100">Gestion Complète</p>
                 </div>
               )}
             </div>
           </div>
 
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-            {menuItems.map((item) => (
+            {menuItems.map((item, index) => (
               <button
-                key={item.view}
-                onClick={() => {
-                  onNavigate(item.view);
-                  setIsOpen(false);
-                }}
+                key={item.label}
+                onClick={() => handleNavigation(item)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                   currentView === item.view
                     ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
@@ -99,7 +113,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, onLogout, us
                 <span className={`flex-shrink-0 transition-transform duration-200 ${currentView === item.view ? 'scale-110' : ''}`}>
                   {item.icon}
                 </span>
-                {isOpen && <span className="font-semibold text-sm truncate">{item.label}</span>}
+                {isOpen && (
+                  <span className="font-semibold text-sm truncate">{item.label}</span>
+                )}
               </button>
             ))}
           </nav>
