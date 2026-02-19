@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start All Microservices",
+			"type": "shell",
+			"command": "bash start-all-services.sh",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Restart API Gateway and Auth Service",
+			"type": "shell",
+			"command": "pkill -f 'api-gateway' && sleep 2 && cd /Users/anass/Documents/microservice_sprotif/services/api-gateway && mvn spring-boot:run > ../../logs/api-gateway.log 2>&1 & sleep 3 && pkill -f 'auth-service' && sleep 2 && cd /Users/anass/Documents/microservice_sprotif/services/auth-service && mvn spring-boot:run > ../../logs/auth-service.log 2>&1 &",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

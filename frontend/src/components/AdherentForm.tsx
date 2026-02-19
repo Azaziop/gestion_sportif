@@ -10,6 +10,12 @@ interface AdherentFormProps {
 const AdherentForm: React.FC<AdherentFormProps> = ({ onSuccess, onCancel }): React.ReactElement => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [subscriptionData, setSubscriptionData] = useState({
+    type: 'BASIC',
+    price: '',
+    startDate: new Date().toISOString().split('T')[0],
+    durationMonths: '12'
+  });
   const [formData, setFormData] = useState<AdherentCreateRequest>({
     firstName: '',
     lastName: '',
@@ -60,14 +66,38 @@ const AdherentForm: React.FC<AdherentFormProps> = ({ onSuccess, onCancel }): Rea
     setError(null);
 
     try {
+      // Vérifier que le prix est saisi
+      if (!subscriptionData.price || isNaN(parseFloat(subscriptionData.price))) {
+        setError('Veuillez entrer un prix valide pour l\'abonnement');
+        setLoading(false);
+        return;
+      }
+
       const payload = {
         ...formData,
         phoneNumber: formData.phoneNumber.replace(/\s+/g, ''),
+        // Ajouter les données d'abonnement directement
+        subscriptionType: subscriptionData.type,
+        subscriptionPrice: parseFloat(subscriptionData.price),
+        subscriptionDurationMonths: parseInt(subscriptionData.durationMonths, 10),
+        subscriptionStartDate: subscriptionData.startDate
       };
-      await adherentService.createAdherent(payload);
+      
+      const createdAdherent = await adherentService.createAdherent(payload);
+      
       onSuccess();
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Erreur lors de la création');
+      const status = err.response?.status;
+      const backendMessage = err.response?.data?.message || err.response?.data?.error;
+      let message = backendMessage || err.message || 'Erreur lors de la création';
+
+      if (!backendMessage && status) {
+        if (status === 400) message = "Données invalides. Vérifiez les champs saisis.";
+        if (status === 403) message = "Accès refusé. Veuillez vous reconnecter.";
+        if (status === 409) message = "Conflit de données (email ou autre déjà utilisé).";
+      }
+
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -262,6 +292,68 @@ const AdherentForm: React.FC<AdherentFormProps> = ({ onSuccess, onCancel }): Rea
                     placeholder="France"
                   />
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Abonnement */}
+          <div>
+            <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+              <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+              </svg>
+              Abonnement *
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Type d'abonnement *</label>
+                <select
+                  value={subscriptionData.type}
+                  onChange={(e) => setSubscriptionData({ ...subscriptionData, type: e.target.value })}
+                  required
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                >
+                  <option value="BASIC">BASIC (3 séances/semaine)</option>
+                  <option value="PREMIUM">PREMIUM (Illimité)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Prix (€) *</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={subscriptionData.price}
+                  onChange={(e) => setSubscriptionData({ ...subscriptionData, price: e.target.value })}
+                  required
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  placeholder="49.99"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Date de début *</label>
+                <input
+                  type="date"
+                  value={subscriptionData.startDate}
+                  onChange={(e) => setSubscriptionData({ ...subscriptionData, startDate: e.target.value })}
+                  required
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Durée (mois) *</label>
+                <input
+                  type="number"
+                  min="1"
+                  value={subscriptionData.durationMonths}
+                  onChange={(e) => setSubscriptionData({ ...subscriptionData, durationMonths: e.target.value })}
+                  required
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  placeholder="12"
+                />
               </div>
             </div>
           </div>

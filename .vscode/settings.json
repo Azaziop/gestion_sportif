@@ -1,3 +1,21 @@
 {
-    "java.debug.settings.onBuildFailureProceed": true
+    "java.debug.settings.onBuildFailureProceed": true,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.import.maven.enabled": true,
+    "java.project.sourcePaths": [
+        "services/adherent-service/src/main/java",
+        "services/adherent-service/src/test/java",
+        "services/auth-service/src/main/java",
+        "services/auth-service/src/test/java",
+        "services/user-service/src/main/java",
+        "services/user-service/src/test/java",
+        "services/api-gateway/src/main/java",
+        "services/api-gateway/src/test/java"
+    ],
+    "java.project.resourcePaths": [
+        "services/adherent-service/src/main/resources",
+        "services/auth-service/src/main/resources",
+        "services/user-service/src/main/resources",
+        "services/api-gateway/src/main/resources"
+    ]
 }

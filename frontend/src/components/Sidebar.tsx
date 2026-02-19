@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 interface SidebarProps {
-  currentView: 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'subscriptions';
-  onNavigate: (view: 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'subscriptions') => void;
+  currentView: 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'courses' | 'reservations';
+  onNavigate: (view: 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'courses' | 'reservations') => void;
   onLogout: () => void;
   userRole: string | null;
 }
@@ -13,6 +13,24 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, onLogout, us
   const isAdmin = userRole === 'ADMIN';
 
   const menuItems = [
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      ),
+      label: 'Cours',
+      view: 'courses' as const,
+    },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h18M3 9h18M3 15h18M3 21h18" />
+        </svg>
+      ),
+      label: 'Mes réservations',
+      view: 'reservations' as const,
+    },
     ...(isAdmin ? [{
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,15 +48,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onNavigate, onLogout, us
       ),
       label: 'Nouvel Adhérent',
       view: 'form' as const,
-    },
-    {
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-        </svg>
-      ),
-      label: 'Abonnements',
-      view: 'subscriptions' as const,
     },
     {
       icon: (

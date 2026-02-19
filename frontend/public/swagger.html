@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprotif Microservices - Swagger UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #fafafa;
+        }
+        .topbar {
+            background-color: #1976d2;
+            padding: 10px;
+            text-align: center;
+            color: white;
+        }
+        .topbar h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <h1>🏋️ Sprotif Microservices API Documentation</h1>
+        <p>Sport Management Platform - OpenAPI / Swagger Documentation</p>
+    </div>
+    <div id="swagger-ui"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.js"></script>
+    <script>
+        window.onload = function() {
+            const ui = SwaggerUIBundle({
+                url: "http://localhost:8081/v3/api-docs",
+                dom_id: '#swagger-ui',
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIBundle.SwaggerUIStandalonePreset
+                ],
+                layout: "BaseLayout",
+                requestInterceptor: (request) => {
+                    request.headers['Authorization'] = `Bearer ${localStorage.getItem('jwtToken') || ''}`;
+                    return request;
+                }
+            });
+            window.ui = ui;
+        }
+    </script>
+</body>
+</html>

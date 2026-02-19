@@ -12,6 +12,13 @@ interface EditAdherentFormProps {
 const EditAdherentForm: React.FC<EditAdherentFormProps> = ({ adherent, onSuccess, onCancel }): React.ReactElement => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [subscriptionData, setSubscriptionData] = useState({
+    type: adherent.currentSubscription?.type || 'BASIC',
+    price: adherent.currentSubscription?.price?.toString() || '',
+    startDate: adherent.currentSubscription?.startDate || new Date().toISOString().split('T')[0],
+    durationMonths: adherent.currentSubscription?.durationMonths?.toString() || '12'
+  });
+  const [hasSubscription, setHasSubscription] = useState(!!adherent.currentSubscription);
   const [photoPreview, setPhotoPreview] = useState<string | null>(
     adherent.photo ? `data:image/jpeg;base64,${adherent.photo}` : null
   );
@@ -68,6 +75,29 @@ const EditAdherentForm: React.FC<EditAdherentFormProps> = ({ adherent, onSuccess
       
       // Si l'utilisateur est ADMIN, utiliser l'endpoint /api/adherents/{id}
       if (userRole === 'ADMIN') {
+        // Gérer l'abonnement directement dans le payload
+        if (hasSubscription) {
+          if (!subscriptionData.price || isNaN(parseFloat(subscriptionData.price))) {
+            setError('Veuillez entrer un prix valide pour l\'abonnement');
+            setLoading(false);
+            return;
+          }
+
+          // Ajouter les données d'abonnement au payload
+          payload.subscriptionType = subscriptionData.type;
+          payload.subscriptionPrice = parseFloat(subscriptionData.price);
+          payload.subscriptionDurationMonths = parseInt(subscriptionData.durationMonths, 10);
+          payload.subscriptionStartDate = subscriptionData.startDate;
+        } else {
+          // Retirer l'abonnement en mettant les colonnes à null
+          payload.subscriptionType = null;
+          payload.subscriptionPrice = null;
+          payload.subscriptionDurationMonths = null;
+          payload.subscriptionStartDate = null;
+          payload.subscriptionEndDate = null;
+        }
+
+        // Faire un seul appel pour tout mettre à jour
         await adherentService.updateAdherent(adherent.id, payload);
       } else {
         // Si c'est un utilisateur normal, utiliser /api/profile
@@ -264,6 +294,85 @@ const EditAdherentForm: React.FC<EditAdherentFormProps> = ({ adherent, onSuccess
                   />
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Abonnement */}
+          <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+              <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+              </svg>
+              Abonnement
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 mb-4">
+                <input
+                  type="checkbox"
+                  id="hasSubscription"
+                  checked={hasSubscription}
+                  onChange={(e) => setHasSubscription(e.target.checked)}
+                  className="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                />
+                <label htmlFor="hasSubscription" className="text-sm font-semibold text-gray-700">
+                  Cet adhérent a un abonnement
+                </label>
+              </div>
+              
+              {hasSubscription && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Type d'abonnement *</label>
+                    <select
+                      value={subscriptionData.type}
+                      onChange={(e) => setSubscriptionData({ ...subscriptionData, type: e.target.value })}
+                      required={hasSubscription}
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                    >
+                      <option value="BASIC">BASIC (3 séances/semaine)</option>
+                      <option value="PREMIUM">PREMIUM (Illimité)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Prix (€) *</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={subscriptionData.price}
+                      onChange={(e) => setSubscriptionData({ ...subscriptionData, price: e.target.value })}
+                      required={hasSubscription}
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                      placeholder="49.99"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Date de début *</label>
+                    <input
+                      type="date"
+                      value={subscriptionData.startDate}
+                      onChange={(e) => setSubscriptionData({ ...subscriptionData, startDate: e.target.value })}
+                      required={hasSubscription}
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Durée (mois) *</label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={subscriptionData.durationMonths}
+                      onChange={(e) => setSubscriptionData({ ...subscriptionData, durationMonths: e.target.value })}
+                      required={hasSubscription}
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+                      placeholder="12"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

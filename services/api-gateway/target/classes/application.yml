@@ -1,0 +1,61 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - PreserveHostHeader
+        - name: RemoveRequestHeader
+          args:
+            name: Cookie
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+            allowed-methods: "*"
+            allowed-headers: "*"
+            allow-credentials: true
+      routes:
+        # Auth Service (pointing to adherent-service)
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/auth/**
+        # Adherent Service
+        - id: adherent-service
+          uri: ${ADHERENT_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/adherents/**,/api/subscriptions/**,/api/reports/**,/api/profile
+          filters:
+            - PreserveHostHeader
+            - RemoveRequestHeader=Cookie
+        # Sport Service
+        - id: sport-service
+          uri: ${SPORT_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/reservations/**,/api/bookings/**,/api/sports/**,/api/sessions/**
+          filters:
+            - PreserveHostHeader
+
+        # Cours Service
+        - id: cours-service
+          uri: ${COURS_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/api/cours/**
+          filters:
+            - PreserveHostHeader
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# Disable Eureka
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false

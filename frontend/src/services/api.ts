@@ -108,6 +108,10 @@ export const authService = {
 export const adherentService = {
   // Créer un adhérent
   createAdherent: async (data: AdherentCreateRequest): Promise<Adherent> => {
+    const token = localStorage.getItem('token');
+    const role = authService.getUserRole();
+    console.log('createAdherent(): token présent:', Boolean(token));
+    console.log('createAdherent(): rôle détecté:', role);
     const response = await apiClient.post<Adherent>('/adherents', data);
     return response.data;
   },

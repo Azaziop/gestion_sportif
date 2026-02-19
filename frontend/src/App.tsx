@@ -7,11 +7,12 @@ import AuthPage from './components/AuthPage';
 import Sidebar from './components/Sidebar';
 import UserProfile from './components/UserProfile';
 import Reports from './components/Reports';
-import SubscriptionManager from './components/SubscriptionManager';
+import CoursList from './components/CoursList';
+import ReservationList from './components/ReservationList';
 import { authService } from './services/api';
 import type { Adherent } from './types';
 
-type View = 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'subscriptions';
+type View = 'list' | 'form' | 'details' | 'profile' | 'edit' | 'reports' | 'users' | 'courses' | 'reservations';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -104,10 +105,6 @@ function App() {
               <Reports onClose={() => setCurrentView('list')} />
             )}
 
-            {currentView === 'subscriptions' && userRole === 'ADMIN' && (
-              <SubscriptionManager onClose={() => setCurrentView('list')} />
-            )}
-
             {currentView === 'list' && userRole === 'ADMIN' && (
               <AdherentList
                 onSelectAdherent={handleSelectAdherent}
@@ -155,6 +152,14 @@ function App() {
                 onSuccess={handleDetailsUpdate}
                 onCancel={() => setCurrentView('details')}
               />
+            )}
+
+            {currentView === 'courses' && (
+              <CoursList />
+            )}
+
+            {currentView === 'reservations' && (
+              <ReservationList />
             )}
           </div>
         </main>

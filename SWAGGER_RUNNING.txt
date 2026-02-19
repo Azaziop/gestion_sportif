@@ -1,0 +1,94 @@
+✅ SWAGGER/OPENAPI DOCKER - RUNNING STATUS
+
+═══════════════════════════════════════════════════════════════════
+
+🎯 DOCKER SERVICES STARTED:
+
+✅ PostgreSQL (postgres-microservices)
+   Status: Healthy
+   Port: 5434
+   Health Check: PASSED
+
+✅ Adherent Service
+   Status: Running
+   Port: 8081
+   Swagger UI: ACTIVE
+   OpenAPI Endpoints: ACTIVE
+
+═══════════════════════════════════════════════════════════════════
+
+📍 SWAGGER/OPENAPI ACCESS:
+
+1. Swagger UI (Built-in)
+   URL: http://localhost:8081/swagger-ui.html
+   Status: ✅ ACCESSIBLE
+
+2. OpenAPI JSON Specification
+   URL: http://localhost:8081/v3/api-docs
+   Status: ✅ ACCESSIBLE
+
+3. Swagger UI (Alternative)
+   URL: http://localhost:8081/swagger-ui/index.html
+   Status: ✅ ACCESSIBLE
+
+═══════════════════════════════════════════════════════════════════
+
+🚀 NEXT STEPS:
+
+1. Open Swagger UI in browser:
+   http://localhost:8081/swagger-ui.html
+
+2. Test API endpoints:
+   - Login: POST /api/auth/login
+   - Get Profile: GET /api/profile
+   - Register: POST /api/auth/register
+
+3. Use JWT Authentication:
+   - Get token from login endpoint
+   - Click "Authorize" button in Swagger UI
+   - Paste token: Bearer <your-token>
+
+═══════════════════════════════════════════════════════════════════
+
+📊 ACTIVE REQUESTS LOGGED:
+
+✅ /swagger-ui.html - Multiple access attempts recorded
+✅ /swagger-ui/index.html - Swagger UI indexes being served
+✅ /v3/api-docs - OpenAPI JSON being accessed
+✅ /api/auth/login - Authentication endpoint accessed
+✅ /api/profile - Profile endpoint accessed
+✅ /actuator/health - Health checks passing
+
+═══════════════════════════════════════════════════════════════════
+
+🔧 SERVICE INFORMATION:
+
+Service Name: adherent-service
+Image: microservice_sprotif-adherent-service
+Container Status: Running
+Uptime: Active
+Framework: Spring Boot 3.5.10
+Port Mapping: 8081:8081
+Network: microservices-network
+
+═══════════════════════════════════════════════════════════════════
+
+💡 USAGE:
+
+Access Swagger UI:
+  Open: http://localhost:8081/swagger-ui.html
+
+Export OpenAPI Spec:
+  curl http://localhost:8081/v3/api-docs > openapi.json
+
+Check Service Health:
+  curl http://localhost:8081/actuator/health
+
+View Docker Logs:
+  docker compose logs -f adherent-service
+
+═══════════════════════════════════════════════════════════════════
+
+✨ SUCCESS! Swagger is running in Docker! ✨
+
+═══════════════════════════════════════════════════════════════════

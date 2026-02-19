@@ -1,0 +1,111 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.gestion.sportif:reservation >-------------------
+[INFO] Building reservation 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.3.5:run (default-cli) > test-compile @ reservation >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ reservation ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ reservation ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ reservation ---
+[INFO] skip non existing resourceDirectory /Users/anass/Documents/microservice_sprotif/services/sport/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ reservation ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot:3.3.5:run (default-cli) < test-compile @ reservation <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.3.5:run (default-cli) @ reservation ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.5)
+
+2026-02-19T23:04:06.960Z  INFO 39431 --- [reservation-service] [  restartedMain] c.g.s.r.ReservationServiceApplication    : Starting ReservationServiceApplication using Java 25.0.1 with PID 39431 (/Users/anass/Documents/microservice_sprotif/services/sport/target/classes started by anass in /Users/anass/Documents/microservice_sprotif/services/sport)
+2026-02-19T23:04:06.960Z DEBUG 39431 --- [reservation-service] [  restartedMain] c.g.s.r.ReservationServiceApplication    : Running with Spring Boot v3.3.5, Spring v6.1.14
+2026-02-19T23:04:06.960Z  INFO 39431 --- [reservation-service] [  restartedMain] c.g.s.r.ReservationServiceApplication    : No active profile set, falling back to 1 default profile: "default"
+2026-02-19T23:04:06.974Z  INFO 39431 --- [reservation-service] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-02-19T23:04:06.974Z  INFO 39431 --- [reservation-service] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-02-19T23:04:07.293Z  INFO 39431 --- [reservation-service] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-19T23:04:07.308Z  INFO 39431 --- [reservation-service] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 3 JPA repository interfaces.
+2026-02-19T23:04:07.377Z  INFO 39431 --- [reservation-service] [  restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=e980cdd8-c010-368e-9bcc-ff374fbbdf03
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by org.apache.tomcat.jni.Library in an unnamed module (file:/Users/anass/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.31/tomcat-embed-core-10.1.31.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+2026-02-19T23:04:07.588Z  INFO 39431 --- [reservation-service] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8085 (http)
+2026-02-19T23:04:07.592Z  INFO 39431 --- [reservation-service] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-19T23:04:07.592Z  INFO 39431 --- [reservation-service] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2026-02-19T23:04:07.604Z  INFO 39431 --- [reservation-service] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-19T23:04:07.604Z  INFO 39431 --- [reservation-service] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 630 ms
+2026-02-19T23:04:07.664Z DEBUG 39431 --- [reservation-service] [  restartedMain] c.g.s.r.s.JwtAuthenticationFilter        : Filter 'jwtAuthenticationFilter' configured for use
+2026-02-19T23:04:07.701Z  INFO 39431 --- [reservation-service] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-19T23:04:07.714Z  INFO 39431 --- [reservation-service] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-02-19T23:04:07.721Z  INFO 39431 --- [reservation-service] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-19T23:04:07.793Z  INFO 39431 --- [reservation-service] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-19T23:04:07.800Z  INFO 39431 --- [reservation-service] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-19T23:04:07.849Z  INFO 39431 --- [reservation-service] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2d49778f
+2026-02-19T23:04:07.849Z  INFO 39431 --- [reservation-service] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-19T23:04:07.858Z  WARN 39431 --- [reservation-service] [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-19T23:04:08.091Z  INFO 39431 --- [reservation-service] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-19T23:04:08.123Z DEBUG 39431 --- [reservation-service] [  restartedMain] org.hibernate.SQL                        : 
+    alter table if exists sports 
+       alter column description set data type TEXT
+Hibernate: 
+    alter table if exists sports 
+       alter column description set data type TEXT
+2026-02-19T23:04:08.131Z  INFO 39431 --- [reservation-service] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-19T23:04:08.212Z  INFO 39431 --- [reservation-service] [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-19T23:04:08.410Z  WARN 39431 --- [reservation-service] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-19T23:04:08.465Z  WARN 39431 --- [reservation-service] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-02-19T23:04:08.519Z  INFO 39431 --- [reservation-service] [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-02-19T23:04:08.674Z  INFO 39431 --- [reservation-service] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-02-19T23:04:08.917Z  WARN 39431 --- [reservation-service] [  restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-02-19T23:04:08.919Z  INFO 39431 --- [reservation-service] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-19T23:04:08.920Z  INFO 39431 --- [reservation-service] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-19T23:04:08.921Z  INFO 39431 --- [reservation-service] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-02-19T23:04:08.929Z  INFO 39431 --- [reservation-service] [  restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-02-19T23:04:08.934Z ERROR 39431 --- [reservation-service] [  restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8085 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8085 or configure this application to listen on another port.
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.998 s
+[INFO] Finished at: 2026-02-19T23:04:08Z
+[INFO] ------------------------------------------------------------------------
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             2026-02-19T23:05:23.909Z  INFO 34355 --- [reservation-service] [nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-19T23:05:23.911Z  INFO 34355 --- [reservation-service] [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-19T23:05:23.916Z  INFO 34355 --- [reservation-service] [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2026-02-19T23:07:15.729Z  INFO 34355 --- [reservation-service] [nio-8085-exec-7] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 250 ms
+2026-02-19T23:12:16.093Z  INFO 34355 --- [reservation-service] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-19T23:12:16.098Z  INFO 34355 --- [reservation-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-02-19T23:12:16.102Z  INFO 34355 --- [reservation-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
