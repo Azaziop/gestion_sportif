@@ -35,71 +35,95 @@
 
  :: Spring Boot ::                (v3.3.5)
 
-2026-02-19T23:03:07.808Z  INFO 38395 --- [           main] c.e.a.AdherentServiceApplication         : Starting AdherentServiceApplication using Java 25.0.1 with PID 38395 (/Users/anass/Documents/microservice_sprotif/services/adherent-service/target/classes started by anass in /Users/anass/Documents/microservice_sprotif/services/adherent-service)
-2026-02-19T23:03:07.809Z  INFO 38395 --- [           main] c.e.a.AdherentServiceApplication         : No active profile set, falling back to 1 default profile: "default"
-2026-02-19T23:03:08.088Z  INFO 38395 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-02-19T23:03:08.128Z  INFO 38395 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38 ms. Found 3 JPA repository interfaces.
+2026-02-19T23:56:28.605Z  INFO 67229 --- [           main] c.e.a.AdherentServiceApplication         : Starting AdherentServiceApplication using Java 25.0.1 with PID 67229 (/Users/anass/Documents/microservice_sprotif/services/adherent-service/target/classes started by anass in /Users/anass/Documents/microservice_sprotif/services/adherent-service)
+2026-02-19T23:56:28.605Z  INFO 67229 --- [           main] c.e.a.AdherentServiceApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-02-19T23:56:28.979Z  INFO 67229 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-19T23:56:29.036Z  INFO 67229 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 54 ms. Found 3 JPA repository interfaces.
 WARNING: A restricted method in java.lang.System has been called
 WARNING: java.lang.System::load has been called by org.apache.tomcat.jni.Library in an unnamed module (file:/Users/anass/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.31/tomcat-embed-core-10.1.31.jar)
 WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
 WARNING: Restricted methods will be blocked in a future release unless native access is enabled
 
-2026-02-19T23:03:08.386Z  INFO 38395 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
-2026-02-19T23:03:08.390Z  INFO 38395 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-02-19T23:03:08.390Z  INFO 38395 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
-2026-02-19T23:03:08.405Z  INFO 38395 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-02-19T23:03:08.405Z  INFO 38395 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 584 ms
-2026-02-19T23:03:08.469Z DEBUG 38395 --- [           main] c.e.a.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
-2026-02-19T23:03:08.512Z  INFO 38395 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-02-19T23:03:08.524Z  INFO 38395 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2026-02-19T23:03:08.532Z  INFO 38395 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2026-02-19T23:03:08.610Z  INFO 38395 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-02-19T23:03:08.617Z  INFO 38395 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-02-19T23:03:08.672Z  INFO 38395 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@e645600
-2026-02-19T23:03:08.673Z  INFO 38395 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-02-19T23:03:08.682Z  WARN 38395 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-02-19T23:03:08.933Z  INFO 38395 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-02-19T23:03:08.969Z  INFO 38395 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-02-19T23:03:09.073Z  INFO 38395 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-19T23:56:29.301Z  INFO 67229 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-02-19T23:56:29.308Z  INFO 67229 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-19T23:56:29.308Z  INFO 67229 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.31]
+2026-02-19T23:56:29.328Z  INFO 67229 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-19T23:56:29.328Z  INFO 67229 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 701 ms
+2026-02-19T23:56:29.394Z DEBUG 67229 --- [           main] c.e.a.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
+2026-02-19T23:56:29.449Z  INFO 67229 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-19T23:56:29.476Z  INFO 67229 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-02-19T23:56:29.489Z  INFO 67229 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-19T23:56:29.578Z  INFO 67229 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-19T23:56:29.587Z  INFO 67229 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-19T23:56:29.665Z  INFO 67229 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5906ebfb
+2026-02-19T23:56:29.665Z  INFO 67229 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-19T23:56:29.680Z  WARN 67229 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-19T23:56:29.983Z  INFO 67229 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-19T23:56:30.026Z  INFO 67229 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-19T23:56:30.142Z  INFO 67229 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
 WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
 WARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (file:/Users/anass/.m2/repository/io/netty/netty-common/4.1.114.Final/netty-common-4.1.114.Final.jar)
 WARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2
 WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
-2026-02-19T23:03:09.338Z  WARN 38395 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-02-19T23:03:09.353Z  INFO 38395 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
-2026-02-19T23:03:09.493Z  INFO 38395 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
-2026-02-19T23:03:09.528Z DEBUG 38395 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
-2026-02-19T23:03:09.714Z  INFO 38395 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
-2026-02-19T23:03:09.721Z  INFO 38395 --- [           main] c.e.a.AdherentServiceApplication         : Started AdherentServiceApplication in 2.008 seconds (process running for 2.114)
-2026-02-19T23:05:23.712Z  INFO 38395 --- [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-02-19T23:05:23.713Z  INFO 38395 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2026-02-19T23:05:23.717Z  INFO 38395 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
-2026-02-19T23:05:23.724Z DEBUG 38395 --- [nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /actuator/health
-2026-02-19T23:05:23.728Z  INFO 38395 --- [nio-8081-exec-1] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /actuator/health
-2026-02-19T23:05:23.729Z  INFO 38395 --- [nio-8081-exec-1] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter: /actuator/health is public endpoint, skipping JWT validation
-2026-02-19T23:05:23.730Z DEBUG 38395 --- [nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2026-02-19T23:05:23.732Z DEBUG 38395 --- [nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /actuator/health
-2026-02-19T23:05:34.465Z DEBUG 38395 --- [nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /actuator/health
-2026-02-19T23:05:34.465Z  INFO 38395 --- [nio-8081-exec-4] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /actuator/health
-2026-02-19T23:05:34.465Z  INFO 38395 --- [nio-8081-exec-4] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter: /actuator/health is public endpoint, skipping JWT validation
-2026-02-19T23:05:34.465Z DEBUG 38395 --- [nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2026-02-19T23:05:34.466Z DEBUG 38395 --- [nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /actuator/health
-2026-02-19T23:07:03.589Z DEBUG 38395 --- [nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /actuator/health
-2026-02-19T23:07:03.592Z  INFO 38395 --- [nio-8081-exec-5] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /actuator/health
-2026-02-19T23:07:03.592Z  INFO 38395 --- [nio-8081-exec-5] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter: /actuator/health is public endpoint, skipping JWT validation
-2026-02-19T23:07:03.592Z DEBUG 38395 --- [nio-8081-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2026-02-19T23:07:03.592Z DEBUG 38395 --- [nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /actuator/health
-2026-02-19T23:07:15.059Z DEBUG 38395 --- [nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /v3/api-docs
-2026-02-19T23:07:15.059Z  INFO 38395 --- [nio-8081-exec-7] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /v3/api-docs
-2026-02-19T23:07:15.060Z  INFO 38395 --- [nio-8081-exec-7] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter: /v3/api-docs is public endpoint, skipping JWT validation
-2026-02-19T23:07:15.060Z DEBUG 38395 --- [nio-8081-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2026-02-19T23:07:15.061Z DEBUG 38395 --- [nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /v3/api-docs
-2026-02-19T23:07:15.287Z  INFO 38395 --- [nio-8081-exec-7] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 211 ms
-2026-02-19T23:07:21.406Z DEBUG 38395 --- [nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /v3/api-docs
-2026-02-19T23:07:21.406Z  INFO 38395 --- [nio-8081-exec-9] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /v3/api-docs
-2026-02-19T23:07:21.406Z  INFO 38395 --- [nio-8081-exec-9] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter: /v3/api-docs is public endpoint, skipping JWT validation
-2026-02-19T23:07:21.406Z DEBUG 38395 --- [nio-8081-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
-2026-02-19T23:07:21.406Z DEBUG 38395 --- [nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /v3/api-docs
-2026-02-19T23:12:16.118Z  INFO 38395 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-02-19T23:12:16.122Z  INFO 38395 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-02-19T23:12:16.126Z  INFO 38395 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-02-19T23:56:30.436Z  WARN 67229 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-19T23:56:30.450Z  INFO 67229 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-02-19T23:56:30.608Z  INFO 67229 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-02-19T23:56:30.645Z DEBUG 67229 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-19T23:56:30.834Z  INFO 67229 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2026-02-19T23:56:30.840Z  INFO 67229 --- [           main] c.e.a.AdherentServiceApplication         : Started AdherentServiceApplication in 2.595 seconds (process running for 2.72)
+2026-02-19T23:57:32.217Z  INFO 67229 --- [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-19T23:57:32.218Z  INFO 67229 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-19T23:57:32.226Z  INFO 67229 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
+2026-02-19T23:57:32.238Z DEBUG 67229 --- [nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /actuator/health
+2026-02-19T23:57:32.242Z  INFO 67229 --- [nio-8081-exec-1] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /actuator/health
+2026-02-19T23:57:32.243Z  INFO 67229 --- [nio-8081-exec-1] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter: /actuator/health is public endpoint, skipping JWT validation
+2026-02-19T23:57:32.244Z DEBUG 67229 --- [nio-8081-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-19T23:57:32.246Z DEBUG 67229 --- [nio-8081-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /actuator/health
+2026-02-19T23:57:45.981Z DEBUG 67229 --- [nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/login
+2026-02-19T23:57:45.981Z  INFO 67229 --- [nio-8081-exec-2] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /api/auth/login
+2026-02-19T23:57:45.981Z  INFO 67229 --- [nio-8081-exec-2] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter: /api/auth/login is public endpoint, skipping JWT validation
+2026-02-19T23:57:45.981Z DEBUG 67229 --- [nio-8081-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-19T23:57:45.982Z DEBUG 67229 --- [nio-8081-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/login
+2026-02-19T23:58:31.049Z DEBUG 67229 --- [nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/login
+2026-02-19T23:58:31.051Z  INFO 67229 --- [nio-8081-exec-4] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /api/auth/login
+2026-02-19T23:58:31.051Z  INFO 67229 --- [nio-8081-exec-4] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter: /api/auth/login is public endpoint, skipping JWT validation
+2026-02-19T23:58:31.051Z DEBUG 67229 --- [nio-8081-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-19T23:58:31.052Z DEBUG 67229 --- [nio-8081-exec-4] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/login
+2026-02-19T23:58:31.188Z DEBUG 67229 --- [nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/adherents?page=0&size=10
+2026-02-19T23:58:31.189Z  INFO 67229 --- [nio-8081-exec-5] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /api/adherents
+2026-02-19T23:58:31.189Z  INFO 67229 --- [nio-8081-exec-5] c.e.a.security.JwtAuthenticationFilter   : Request to /api/adherents - Authorization header: present
+2026-02-19T23:58:31.226Z DEBUG 67229 --- [nio-8081-exec-5] c.e.a.security.JwtAuthenticationFilter   : JWT for /api/adherents -> username: admin, role: ADMIN
+2026-02-19T23:58:31.227Z DEBUG 67229 --- [nio-8081-exec-5] c.e.a.security.JwtAuthenticationFilter   : Authentication set with authorities: [ROLE_ADMIN]
+2026-02-19T23:58:31.228Z DEBUG 67229 --- [nio-8081-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/adherents?page=0&size=10
+2026-02-19T23:58:31.242Z DEBUG 67229 --- [nio-8081-exec-5] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.AdherentController.getAdherents(int,int); target is of class [com.example.adherentservice.controller.AdherentController]
+2026-02-19T23:58:31.253Z DEBUG 67229 --- [nio-8081-exec-5] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.AdherentController.getAdherents(int,int); target is of class [com.example.adherentservice.controller.AdherentController]
+2026-02-19T23:58:31.280Z  WARN 67229 --- [nio-8081-exec-5] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-02-19T23:58:34.176Z DEBUG 67229 --- [nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/reports/subscription-statistics
+2026-02-19T23:58:34.177Z  INFO 67229 --- [nio-8081-exec-6] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /api/reports/subscription-statistics
+2026-02-19T23:58:34.177Z  INFO 67229 --- [nio-8081-exec-6] c.e.a.security.JwtAuthenticationFilter   : Request to /api/reports/subscription-statistics - Authorization header: present
+2026-02-19T23:58:34.178Z DEBUG 67229 --- [nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/reports/adherents-by-status
+2026-02-19T23:58:34.178Z DEBUG 67229 --- [nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/reports/general-statistics
+2026-02-19T23:58:34.178Z  INFO 67229 --- [nio-8081-exec-8] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /api/reports/adherents-by-status
+2026-02-19T23:58:34.178Z  INFO 67229 --- [nio-8081-exec-8] c.e.a.security.JwtAuthenticationFilter   : Request to /api/reports/adherents-by-status - Authorization header: present
+2026-02-19T23:58:34.179Z  INFO 67229 --- [nio-8081-exec-7] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /api/reports/general-statistics
+2026-02-19T23:58:34.179Z  INFO 67229 --- [nio-8081-exec-7] c.e.a.security.JwtAuthenticationFilter   : Request to /api/reports/general-statistics - Authorization header: present
+2026-02-19T23:58:34.180Z DEBUG 67229 --- [nio-8081-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/reports/adherents-by-status
+2026-02-19T23:58:34.180Z DEBUG 67229 --- [nio-8081-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/reports/subscription-statistics
+2026-02-19T23:58:34.181Z DEBUG 67229 --- [nio-8081-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/reports/general-statistics
+2026-02-19T23:58:34.181Z DEBUG 67229 --- [nio-8081-exec-8] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.ReportController.getAdherentsByStatusReport(); target is of class [com.example.adherentservice.controller.ReportController]
+2026-02-19T23:58:34.181Z DEBUG 67229 --- [nio-8081-exec-7] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.ReportController.getGeneralStatistics(); target is of class [com.example.adherentservice.controller.ReportController]
+2026-02-19T23:58:34.181Z DEBUG 67229 --- [nio-8081-exec-6] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.ReportController.getSubscriptionStatistics(); target is of class [com.example.adherentservice.controller.ReportController]
+2026-02-19T23:58:34.182Z DEBUG 67229 --- [nio-8081-exec-8] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.ReportController.getAdherentsByStatusReport(); target is of class [com.example.adherentservice.controller.ReportController]
+2026-02-19T23:58:34.182Z DEBUG 67229 --- [nio-8081-exec-7] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.ReportController.getGeneralStatistics(); target is of class [com.example.adherentservice.controller.ReportController]
+2026-02-19T23:58:34.182Z DEBUG 67229 --- [nio-8081-exec-6] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.ReportController.getSubscriptionStatistics(); target is of class [com.example.adherentservice.controller.ReportController]
+2026-02-19T23:58:35.611Z DEBUG 67229 --- [nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/adherents?page=0&size=10
+2026-02-19T23:58:35.612Z  INFO 67229 --- [nio-8081-exec-9] c.e.a.security.JwtAuthenticationFilter   : JwtAuthenticationFilter processing request: /api/adherents
+2026-02-19T23:58:35.612Z  INFO 67229 --- [nio-8081-exec-9] c.e.a.security.JwtAuthenticationFilter   : Request to /api/adherents - Authorization header: present
+2026-02-19T23:58:35.615Z DEBUG 67229 --- [nio-8081-exec-9] c.e.a.security.JwtAuthenticationFilter   : JWT for /api/adherents -> username: admin, role: ADMIN
+2026-02-19T23:58:35.618Z DEBUG 67229 --- [nio-8081-exec-9] c.e.a.security.JwtAuthenticationFilter   : Authentication set with authorities: [ROLE_ADMIN]
+2026-02-19T23:58:35.620Z DEBUG 67229 --- [nio-8081-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/adherents?page=0&size=10
+2026-02-19T23:58:35.628Z DEBUG 67229 --- [nio-8081-exec-9] horizationManagerBeforeMethodInterceptor : Authorizing method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.AdherentController.getAdherents(int,int); target is of class [com.example.adherentservice.controller.AdherentController]
+2026-02-19T23:58:35.631Z DEBUG 67229 --- [nio-8081-exec-9] horizationManagerBeforeMethodInterceptor : Authorized method invocation ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.example.adherentservice.controller.AdherentController.getAdherents(int,int); target is of class [com.example.adherentservice.controller.AdherentController]

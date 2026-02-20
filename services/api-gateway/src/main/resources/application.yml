@@ -3,17 +3,14 @@ server:
 
 spring:
   cloud:
+    compatibility-verifier:
+      enabled: false
     gateway:
-      default-filters:
-        - PreserveHostHeader
-        - name: RemoveRequestHeader
-          args:
-            name: Cookie
       globalcors:
         add-to-simple-url-handler-mapping: true
         cors-configurations:
           '[/**]':
-            allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+            allowed-origins: "http://localhost:5173,http://localhost:3000"
             allowed-methods: "*"
             allowed-headers: "*"
             allow-credentials: true
@@ -23,29 +20,37 @@ spring:
           uri: ${AUTH_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/auth/**
+          filters:
+            - name: StripPrefix
+              args:
+                parts: 0
         # Adherent Service
         - id: adherent-service
           uri: ${ADHERENT_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/adherents/**,/api/subscriptions/**,/api/reports/**,/api/profile
           filters:
-            - PreserveHostHeader
-            - RemoveRequestHeader=Cookie
-        # Sport Service
+            - name: StripPrefix
+              args:
+                parts: 0
+        # Sport Service  
         - id: sport-service
           uri: ${SPORT_SERVICE_URL:http://localhost:8085}
           predicates:
-            - Path=/api/reservations/**,/api/bookings/**,/api/sports/**,/api/sessions/**
+            - Path=/api/reservations/**,/api/waiting-list/**
           filters:
-            - PreserveHostHeader
-
+            - name: StripPrefix
+              args:
+                parts: 0
         # Cours Service
         - id: cours-service
           uri: ${COURS_SERVICE_URL:http://localhost:8084}
           predicates:
             - Path=/api/cours/**
           filters:
-            - PreserveHostHeader
+            - name: StripPrefix
+              args:
+                parts: 0
 
 management:
   endpoints:

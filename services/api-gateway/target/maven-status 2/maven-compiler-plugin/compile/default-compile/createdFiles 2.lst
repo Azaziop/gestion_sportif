@@ -1,4 +1,0 @@
-com/example/apigateway/config/SecurityConfig.class
-com/example/apigateway/security/JwtService.class
-com/example/apigateway/ApiGatewayApplication.class
-com/example/apigateway/security/JwtGlobalFilter.class
