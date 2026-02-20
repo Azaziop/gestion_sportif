@@ -38,9 +38,9 @@ flowchart LR
 
   GW -->|Routes| AD[Adherent Service]
   GW -->|Routes| CO[Cours Service]
-  GW -->|Routes| RS[Reservation Service (sport)]
-  GW -.->|Routes| AU[Auth Service*]
-  GW -.->|Routes| US[User Service*]
+  GW -->|Routes| RS[Reservation Service]
+  GW -.->|Routes| AU[Auth Service]
+  GW -.->|Routes| US[User Service]
 
   CS[Config Server] --> GW
   CS --> AD
@@ -59,8 +59,10 @@ flowchart LR
   AD --> DB1[(adherent_db)]
   CO --> DB2[(cours_db)]
   RS --> DB3[(reservation_db)]
-  US -.-> DB4[(user_db*)]
+  US -.-> DB4[(user_db)]
 ```
+
+> **Note** : Auth Service et User Service sont attendus mais absents du dépôt.
 
 ## Services (résumé)
 
