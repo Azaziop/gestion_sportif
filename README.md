@@ -17,8 +17,10 @@ Ce projet vise à découpler les domaines métier (adhésion, cours, réservatio
 ## Technologies utilisées
 - **Backend** : Java, Spring Boot, Spring Web, Spring Data JPA
 - **Cloud** : Spring Cloud Gateway, Config Server, Eureka
+- **Messaging** : RabbitMQ (événementiel inter-services)
 - **Sécurité** : JWT
 - **Base de données** : PostgreSQL
+- **API docs** : Springdoc OpenAPI / Swagger UI
 - **Frontend** : React + Vite
 - **Docs & diagrammes** : Mermaid
 
@@ -74,6 +76,28 @@ flowchart LR
 | User Service* | Profil utilisateur | 8083 | user_db |
 
 > *Services référencés dans la configuration mais absents du code source dans ce dépôt.
+
+---
+
+## Messaging (RabbitMQ)
+RabbitMQ est utilisé pour publier/consommer des événements asynchrones entre services (ex: création/mise à jour/suppression de cours, événements de réservation).
+
+**Implémentations présentes**
+- **Cours Service** : configuration d’exchange/queues/bindings via `RabbitMQConfig`.
+- **Reservation Service** : publication d’événements + écouteurs RabbitMQ.
+
+**Mode local sans broker**
+Le service de réservation **désactive** l’auto-configuration AMQP quand RabbitMQ n’est pas disponible, afin de pouvoir démarrer sans broker.
+
+---
+
+## Swagger / OpenAPI
+La documentation API est exposée via **Springdoc OpenAPI** avec **Swagger UI**.
+
+**Endpoints Swagger UI**
+- Adherent Service : `http://localhost:8081/swagger-ui.html`
+- Cours Service : `http://localhost:8084/swagger-ui.html`
+- Reservation Service : `http://localhost:8085/swagger-ui.html`
 
 ---
 
