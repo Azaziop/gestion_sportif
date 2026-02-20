@@ -29,7 +29,7 @@ Ce projet vise à découpler les domaines métier (adhésion, cours, réservatio
 ```mermaid
 flowchart LR
   subgraph Client
-    FE[Frontend (Vite/React)]
+    FE[Frontend Vite React]
   end
 
   FE -->|HTTP| GW[API Gateway]
